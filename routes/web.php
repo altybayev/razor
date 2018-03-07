@@ -20,8 +20,11 @@ use Illuminate\Support\Facades\Mail;
 
 Route::get('/test', function() {
 
-	$email = 'altybaev@bk.ru';
-	Mail::to($email)->send(new BetIsRequired('red', 10));
+	$emails = ['altybaev@bk.ru', '1000-victory@mail.ru'];
+
+	foreach ($emails as $key => $email) {
+		Mail::to($email)->send(new BetIsRequired('red', 10));
+	}
 
 });
 	
@@ -98,7 +101,7 @@ Route::get('/', function () {
 	// dd($stats);
 
 	// TODO: if [param] times -> notify by email!
-	$email = 'altybaev@bk.ru';
+	$emails = ['altybaev@bk.ru', '1000-victory@mail.ru'];
 	$param = 10;
 	$target = '';
 	$qntt = 0;
@@ -120,7 +123,9 @@ Route::get('/', function () {
 	}
 
 	if ($sendEmail) { 
-		Mail::to($email)->send(new BetIsRequired($target, $qntt));
+		foreach ($emails as $key => $email) {
+			Mail::to($email)->send(new BetIsRequired($target, $qntt));
+		}
 	}
 
 
