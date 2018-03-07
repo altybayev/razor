@@ -1,9 +1,11 @@
 <?php
 
+use App\Mail\BetIsRequired;
 use App\WheelLogger;
 use App\WheelStats;
 use Carbon\Carbon;
 use Goutte\Client;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,7 +85,7 @@ Route::get('/', function () {
 		]);
 	} catch (\Exception $e) {
 		print $e->getMessage() . "<br>";
-		return 'already logged';
+		// return 'already logged';
 	}
 
 	// count occurencies
@@ -94,6 +96,31 @@ Route::get('/', function () {
 	// dd($stats);
 
 	// TODO: if [param] times -> notify by email!
+	$email = 's.altybayev@gmail.com';
+	$param = 10;
+	$target = '';
+	$qntt = 0;
+	$sendEmail = false;
+
+	// red
+	if ($stats->red >= $param) {
+		$target = 'red';
+		$qntt = $stats->red;
+		$sendEmail = true;
+	} else if ($stats->grey >= $param) {
+		$target = 'grey';
+		$qntt = $stats->grey;
+		$sendEmail = true;
+	} else if ($stats->black >= $param) {
+		$target = 'black';
+		$qntt = $stats->black;
+		$sendEmail = true;
+	}
+
+	if ($sendEmail) { 
+		Mail::to($email)->send(new BetIsRequired($target, $qntt));
+	}
+
 
 	// TODO: add users
 

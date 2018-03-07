@@ -1,0 +1,1 @@
+нужно ставить на <span style="color: {{ $color }}; font-weight: bold">{{ $target }}</span>!!!
