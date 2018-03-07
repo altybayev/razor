@@ -20,11 +20,18 @@ use Illuminate\Support\Facades\Mail;
 
 Route::get('/test', function() {
 
-	$emails = ['altybaev@bk.ru', '1000-victory@mail.ru'];
+	// TODO: collect for last day
+	// TODO: find how many times did not occure 10+
+	// TODO: collect for last week
+	// TODO: find how many times did not occure 10+
 
-	foreach ($emails as $key => $email) {
-		Mail::to($email)->send(new BetIsRequired('red', 10));
-	}
+	// TODO: build like
+	// 10: x
+	// 11: y
+	// 12: z...
+
+	// TODO: what was maximum number ? 20 times? 30 times?
+	// TODO: for each color analyze data!!!
 
 });
 	
@@ -100,14 +107,16 @@ Route::get('/', function () {
 	$stats = WheelStats::first();
 	// dd($stats);
 
-	// TODO: if [param] times -> notify by email!
+	// settings
 	$emails = ['altybaev@bk.ru', '1000-victory@mail.ru'];
-	$param = 10;
 	$target = '';
 	$qntt = 0;
 	$sendEmail = false;
 
-	// red
+	// TODO: if [param] times -> notify by email!
+	$param = 10;
+
+	// count occurencies!
 	if ($stats->red >= $param) {
 		$target = 'red';
 		$qntt = $stats->red;
@@ -122,9 +131,9 @@ Route::get('/', function () {
 		$sendEmail = true;
 	}
 
-	if ($sendEmail) { 
+	if ($sendEmail && $doLog) { 
 		foreach ($emails as $key => $email) {
-			Mail::to($email)->send(new BetIsRequired($target, $qntt));
+			// Mail::to($email)->send(new BetIsRequired($target, $qntt));
 		}
 	}
 
