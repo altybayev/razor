@@ -20,8 +20,8 @@ use Illuminate\Support\Facades\Mail;
 
 Route::get('/test', function() {
 
-	$stats = WheelStats::first()->toArray();
-	dd($stats);
+	$email = 's.altybayev@gmail.com';
+	Mail::to($email)->send(new BetIsRequired('red', 10));
 
 });
 	
