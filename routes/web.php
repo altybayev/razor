@@ -98,7 +98,7 @@ Route::get('/', function () {
 	// dd($stats);
 
 	// TODO: if [param] times -> notify by email!
-	$email = 's.altybayev@gmail.com';
+	$email = 'razor@thevision.kz';
 	$param = 10;
 	$target = '';
 	$qntt = 0;
