@@ -50,9 +50,6 @@ class BetIsRequired extends Mailable
                 break;
         }
 
-        return $this->from([
-            'address' => 'noreply@razor.thevision.kz',
-            'name' => $this->qntt . ' не было ' . $this->target 
-            ])->view('emails.bets.wheel');
+        return $this->from('noreply@razor.thevision.kz')->view('emails.bets.wheel');
     }
 }
