@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Mail;
 
 Route::get('/test', function() {
 
-	$email = 's.altybayev@gmail.com';
+	$email = 'altybaev@bk.ru';
 	Mail::to($email)->send(new BetIsRequired('red', 10));
 
 });
@@ -98,7 +98,7 @@ Route::get('/', function () {
 	// dd($stats);
 
 	// TODO: if [param] times -> notify by email!
-	$email = 'razor@thevision.kz';
+	$email = 'altybaev@bk.ru';
 	$param = 10;
 	$target = '';
 	$qntt = 0;
