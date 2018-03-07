@@ -75,6 +75,8 @@ Route::get('/', function () {
 	});
 
 	// log into db
+	$doLog = true;
+
 	try {
 		WheelLogger::insert([
 			'played_at' => $today . " " . $results['played_at'],
@@ -85,11 +87,11 @@ Route::get('/', function () {
 		]);
 	} catch (\Exception $e) {
 		print $e->getMessage() . "<br>";
-		// return 'already logged';
+		$doLog = false;
 	}
 
 	// count occurencies
-	WheelStats::log($results['color']);
+	if ($doLog) WheelStats::log($results['color']);
 
 	// get how many times didn't occur a color!
 	$stats = WheelStats::first();
