@@ -36,6 +36,11 @@ Route::get('/test', function() {
 });
 	
 
+Route::group(['prefix' => 'wheel'], function() {
+	Route::get('/analyze/{date}/{limit}', 'WheelController@analyze');
+	Route::get('/collect/{date}/{limit}', 'WheelController@collect');
+});
+
 
 Route::get('/', function () {
 	// TODO: when new day starts - clear stats
@@ -133,7 +138,7 @@ Route::get('/', function () {
 
 	if ($sendEmail && $doLog) { 
 		foreach ($emails as $key => $email) {
-			// Mail::to($email)->send(new BetIsRequired($target, $qntt));
+			Mail::to($email)->send(new BetIsRequired($target, $qntt));
 		}
 	}
 
