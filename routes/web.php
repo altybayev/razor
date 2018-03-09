@@ -18,20 +18,23 @@ use Illuminate\Support\Facades\Mail;
 |
 */
 
-Route::get('/test', function() {
+Route::get('/test/{startingBet}/{ratio}', function($startingBet, $ratio) {
 
-	// TODO: collect for last day
-	// TODO: find how many times did not occure 10+
-	// TODO: collect for last week
-	// TODO: find how many times did not occure 10+
+	$bet = $startingBet;
+	$total = 0;
 
-	// TODO: build like
-	// 10: x
-	// 11: y
-	// 12: z...
 
-	// TODO: what was maximum number ? 20 times? 30 times?
-	// TODO: for each color analyze data!!!
+	for ($i = 1 ; $i <= 100; $i++) {
+		$bet = $bet * $ratio;
+		$total += $bet;
+		$win = $bet * 3.05;
+
+		$betstr = number_format($bet, 2, '.', ' ');
+		$totalstr = number_format($total, 2, '.', ' ');
+		$winstr = number_format($win, 2, '.', ' ');
+		$earnstr = number_format($win - $total, 2, '.', ' ');
+		echo "${i}: ${betstr} [${totalstr}] - [${winstr}] - [${earnstr}]<br>";
+	}
 
 });
 	
