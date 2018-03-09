@@ -37,6 +37,11 @@ Route::get('/test/{startingBet}/{ratio}', function($startingBet, $ratio) {
 	}
 
 });
+
+
+Route::get('/test/email', function() {
+	Mail::to('altybaev@bk.ru')->send(new BetIsRequired('red', 11));
+});
 	
 
 Route::group(['prefix' => 'wheel'], function() {
