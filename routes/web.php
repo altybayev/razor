@@ -23,17 +23,65 @@ Route::get('/test/{startingBet}/{ratio}', function($startingBet, $ratio) {
 	$bet = $startingBet;
 	$total = 0;
 
+	$bets = [100, 150, 225, 350, 525, 800, 1200, 1800, 2700, 4050, 6075, 9150];
+	$bets175 = [100, 175, 310, 550, 1000, 1750, 3100, 5500, 10000, 17500, 31000, 55000, 100000, 175000, 310000];
+	$bets200 = [100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200, 102400, 204800];
 
-	for ($i = 1 ; $i <= 100; $i++) {
-		$bet = $bet * $ratio;
+	for ($i = 0 ; $i < count($bets); $i++) {
+		$bet = $bets[$i];
 		$total += $bet;
 		$win = $bet * 3.05;
+		$earn = $win - $total;
+		$perday = $earn * 5;
+		$permonth = $perday * 30;
 
 		$betstr = number_format($bet, 2, '.', ' ');
 		$totalstr = number_format($total, 2, '.', ' ');
 		$winstr = number_format($win, 2, '.', ' ');
-		$earnstr = number_format($win - $total, 2, '.', ' ');
-		echo "${i}: ${betstr} [${totalstr}] - [${winstr}] - [${earnstr}]<br>";
+		$earnstr = number_format($earn, 2, '.', ' ');
+		$perdaystr = number_format($perday, 2, '.', ' ');
+		$permonthstr = number_format($permonth, 2, '.', ' ');
+		echo "${i}: ${betstr} [${totalstr}] - [${winstr} / ${earnstr}] - [${perdaystr} / ${permonthstr}]<br>";
+	}
+
+	echo "<hr>";
+	$total = 0;
+
+	for ($i = 0 ; $i < count($bets175); $i++) {
+		$bet = $bets175[$i];
+		$total += $bet;
+		$win = $bet * 3.05;
+		$earn = $win - $total;
+		$perday = $earn * 5;
+		$permonth = $perday * 30;
+
+		$betstr = number_format($bet, 2, '.', ' ');
+		$totalstr = number_format($total, 2, '.', ' ');
+		$winstr = number_format($win, 2, '.', ' ');
+		$earnstr = number_format($earn, 2, '.', ' ');
+		$perdaystr = number_format($perday, 2, '.', ' ');
+		$permonthstr = number_format($permonth, 2, '.', ' ');
+		echo "${i}: ${betstr} [${totalstr}] - [${winstr} / ${earnstr}] - [${perdaystr} / ${permonthstr}]<br>";
+	}
+
+	echo "<hr>";
+	$total = 0;
+
+	for ($i = 0 ; $i < count($bets200); $i++) {
+		$bet = $bets200[$i];
+		$total += $bet;
+		$win = $bet * 3.05;
+		$earn = $win - $total;
+		$perday = $earn * 5;
+		$permonth = $perday * 30;
+
+		$betstr = number_format($bet, 2, '.', ' ');
+		$totalstr = number_format($total, 2, '.', ' ');
+		$winstr = number_format($win, 2, '.', ' ');
+		$earnstr = number_format($earn, 2, '.', ' ');
+		$perdaystr = number_format($perday, 2, '.', ' ');
+		$permonthstr = number_format($permonth, 2, '.', ' ');
+		echo "${i}: ${betstr} [${totalstr}] - [${winstr} / ${earnstr}] - [${perdaystr} / ${permonthstr}]<br>";
 	}
 
 });
@@ -121,7 +169,7 @@ Route::get('/', function () {
 	// dd($stats);
 
 	// settings
-	$emails = ['altybaev@bk.ru', '1000-victory@mail.ru'];
+	$emails = ['altybaev@bk.ru', '1000-victory@mail.ru', 'ravonrr@mail.ru'];
 	$target = '';
 	$qntt = 0;
 	$sendEmail = false;
