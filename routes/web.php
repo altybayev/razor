@@ -169,15 +169,19 @@ Route::get('/', function () {
 	// dd($stats);
 
 	// settings
-	$emails = ['altybaev@bk.ru', '1000-victory@mail.ru', 'ravonrr@mail.ru'];
+	$emails = ['altybaev@bk.ru', 'ravonrr@mail.ru'];
+	$vitek = '1000-victory@mail.ru';
+
 	$target = '';
 	$qntt = 0;
-	$sendEmail = false;
+	$sendEmailAll = false;
+	$sendEmailVitek = false;
 
 	// TODO: if [param] times -> notify by email!
 	$param = 10;
+	$paramVitek = 15;
 
-	// count occurencies!
+	// others
 	if ($stats->red >= $param) {
 		$target = 'red';
 		$qntt = $stats->red;
@@ -192,12 +196,32 @@ Route::get('/', function () {
 		$sendEmail = true;
 	}
 
+	// vitek
+	if ($stats->red >= $paramVitek) {
+		$target = 'red';
+		$qntt = $stats->red;
+		$sendEmailVitek = true;
+	} else if ($stats->grey >= $paramVitek) {
+		$target = 'grey';
+		$qntt = $stats->grey;
+		$sendEmailVitek = true;
+	} else if ($stats->black >= $paramVitek) {
+		$target = 'black';
+		$qntt = $stats->black;
+		$sendEmailVitek = true;
+	}
+
+	// notify others
 	if ($sendEmail && $doLog) { 
 		foreach ($emails as $key => $email) {
 			Mail::to($email)->send(new BetIsRequired($target, $qntt));
 		}
 	}
 
+	// notify Vitek
+	if ($sendEmailVitek && $doLog) {
+		Mail::to($vitek)->send(new BetIsRequired($target, $qntt));
+	}
 
 	// TODO: add users
 
