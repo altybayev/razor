@@ -174,7 +174,7 @@ Route::get('/', function () {
 
 	$target = '';
 	$qntt = 0;
-	$sendEmailAll = false;
+	$sendEmail = false;
 	$sendEmailVitek = false;
 
 	// TODO: if [param] times -> notify by email!
