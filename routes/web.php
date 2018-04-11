@@ -18,6 +18,20 @@ use Illuminate\Support\Facades\Mail;
 |
 */
 
+
+Route::get('/db', function() {
+	WheelLogger::insert([
+		'played_at' => '2018-04-11 07:12:18',
+		'logged_at' => Carbon::now(),
+		'match_id' => 1,
+		'number' => '16',
+		'color' => 'grey'
+	]);
+
+	return 'OK';
+});
+
+
 Route::get('/test/{startingBet}/{ratio}', function($startingBet, $ratio) {
 
 	$bet = $startingBet;
