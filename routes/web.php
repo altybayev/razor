@@ -19,30 +19,6 @@ use Illuminate\Support\Facades\Mail;
 */
 
 
-Route::get('/db', function() {
-	WheelLogger::create([
-		'played_at' => 'asd',
-		'logged_at' => Carbon::now(),
-		'match_id' => 1,
-		'number' => '16',
-		'color' => 'grey'
-	]);
-
-	return 'OK';
-});
-
-Route::get('/db2', function() {
-	WheelLogger::create([
-		// 'played_at' => 'asd',
-		'logged_at' => Carbon::now(),
-		'match_id' => 1,
-		'number' => '16',
-		'color' => 'grey'
-	]);
-
-	return 'OK';
-});
-
 
 Route::get('/test/{startingBet}/{ratio}', function($startingBet, $ratio) {
 
@@ -185,7 +161,7 @@ Route::get('/', function () {
 	$doLog = true;
 
 	try {
-		WheelLogger::create([
+		WheelLogger::insert([
 			'played_at' => $today . " " . $results['played_at'],
 			'logged_at' => Carbon::now(),
 			'match_id' => 1,
