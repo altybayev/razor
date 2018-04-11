@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Mail;
 
 
 Route::get('/db', function() {
-	WheelLogger::insert([
+	WheelLogger::create([
 		'played_at' => '2018-04-11 07:12:18',
 		'logged_at' => Carbon::now(),
 		'match_id' => 1,
@@ -173,7 +173,7 @@ Route::get('/', function () {
 	$doLog = true;
 
 	try {
-		WheelLogger::insert([
+		WheelLogger::create([
 			'played_at' => $today . " " . $results['played_at'],
 			'logged_at' => Carbon::now(),
 			'match_id' => 1,
