@@ -21,7 +21,19 @@ use Illuminate\Support\Facades\Mail;
 
 Route::get('/db', function() {
 	WheelLogger::create([
-		'played_at' => '2018-04-11 07:12:18',
+		'played_at' => 'asd',
+		'logged_at' => Carbon::now(),
+		'match_id' => 1,
+		'number' => '16',
+		'color' => 'grey'
+	]);
+
+	return 'OK';
+});
+
+Route::get('/db2', function() {
+	WheelLogger::create([
+		// 'played_at' => 'asd',
 		'logged_at' => Carbon::now(),
 		'match_id' => 1,
 		'number' => '16',
