@@ -108,21 +108,29 @@ Route::get('/', function () {
 	$index = 0;
 	$results = [];
 
-	$crawler->filter('table.table-results tr.lottery-items-cell')->first()->filter('td')->each(function($node) use (&$index, &$results) {
+	$crawler->filter('table.table-results tr')->filter('td')->each(function($node) use (&$index, &$results) {
 		$input = $node->text();
 		$input = htmlentities($input, null, 'utf-8');
 		$input = str_replace("&nbsp;", '', $input);
 		$input = str_replace("\n", '', $input);
+		$input = str_replace("\r", '', $input);
 		$input = str_replace(' ', '', $input);
 
-		// color
-		if ($index == 0) {
-			// TODO: get match id
+		// data
+		if ($index == 0) 
+		{
+			// dd($input);
+
 			$parts = explode("-", $input);
 			$results['played_at'] = $parts[0];
-		} else if ($index == 1) {
-
-		} else if ($index == 2) {
+		} 
+		// game
+		else if ($index == 1) 
+		{
+			// dd($input);
+		} 
+		// number, color, played_at
+		else if ($index == 2) {
 			$color = '';
 			$class = $node->filter('span')->attr('class');
 
@@ -138,6 +146,8 @@ Route::get('/', function () {
 
 			$results['number'] = $input;
 			$results['color'] = $color;
+
+			// dd($results);
 		} else if ($index == 3) {
 
 		}
