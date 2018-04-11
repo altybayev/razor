@@ -167,7 +167,7 @@ Route::get('/', function () {
 			'color' => $results['color']
 		]);
 	} catch (\Exception $e) {
-		print $e->getMessage() . "<br>";
+		print 'Ошибка: ' . $e->getMessage();
 		$doLog = false;
 	}
 
