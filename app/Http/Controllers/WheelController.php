@@ -89,7 +89,7 @@ class WheelController extends Controller
 		// count occurencies
 		if ($doLog) {
 			WheelStats::log($results['color']);
-			WheelStatsNumbers::log($results['number']);
+			WheelStatsNumbers::log(intval($results['number']));
 		}
 
 		// check for color
