@@ -14,6 +14,26 @@ use Illuminate\Support\Facades\Mail;
 
 class WheelController extends Controller
 {
+	private $_money = [
+		// 11 => 205.00,
+		// 12 => 258.75,
+		// 13 => 360.50,
+		// 14 => 542.50,
+		// 15 => 915.00,
+		16 => 205.00,
+		17 => 258.75,
+		18 => 360.50,
+		19 => 542.50,
+		20 => 915.00,
+		21 => 1452.50,
+		22 => 2470.00,
+		23 => 4290.00,
+		24 => 8015.00,
+		25 => 13390.00,
+		26 => 39985.00,
+	];
+
+
 	public function round(Request $request)
 	{
 		$today = Carbon::now()->format('Y-m-d');
@@ -228,86 +248,193 @@ class WheelController extends Controller
 	}
 
 
-	public function analyze(Request $request, $date, $limit) {
+	public function analyze(Request $request, $date) {
 		$results = WheelAnalyze::where('played_at', 'like', $date . '%')->get();
-		
-		$occurencies = [
-			'red' => 0, 'black' => 0, 'grey' => 0, 'white' => 0
-		];
-
-		$stats = [];
-		// $games = [];
-
-		for ($i = 1; $i < 100; $i++) { 
-			$stats[$i] = 0;
-		}
+		$results = WheelAnalyze::get();
+		// dd($results->count());
 
 		$prevColor = '';
-		$qntt = 0;
-		$index = 0;
 
-		$games = count($results);
-		$currentGame = 0;
+		$occurencies = [
+			'red' => 0, 'black' => 0, 'grey' => 0, 'white' => 0,
+			'1-6' => 0, '7-12' => 0, '13-18' => 0, '0' => 0
+		];
 
-		// while ($currentGame < $games) {
-
-		// }
-
-		// while ($prevColor !== 'red' && isset($results[$index])) {
-		// 	$qntt += 1;
-		// 	$prevColor = $results[$index]['color'];
-		// 	$index += 1;
-		// }
-
-		// dd($qntt);
-
-		foreach ($results as $key => $result) {
-			// while ($result['color'] === $prevColor) {
-
-			// }
+		$stats = [
+			'red' => [], 'black' => [], 'grey' => [], 'white' => [],
+			'1-6' => [], '7-12' => [], '13-18' => [], '0' => []
+		];
+		// $games = [];
 
 
+		// play round
+		foreach ($results as $key => $result) 
+		{
+			$color = $result->color;
+			$number = $result->number;
+			// dd([$color, $number]);
 
-			if ($result['color'] == 'red') {
+			// save color
+			if (isset($stats[$color][$occurencies[$color] + 1]))
+				$stats[$color][$occurencies[$color] + 1] += 1;
+			else
+				$stats[$color][$occurencies[$color] + 1] = 1;
+
+			// save number
+			$numString = '0';
+
+			if ($number >= 1 && $number <= 6)
+				$numString = '1-6';
+			else if ($number >= 7 && $number <= 12)
+				$numString = '7-12';
+			else if ($number >= 13 && $number <= 18)
+				$numString = '13-18';
+
+			if (isset($stats[$numString][$occurencies[$numString] + 1]))
+				$stats[$numString][$occurencies[$numString] + 1] += 1;
+			else
+				$stats[$numString][$occurencies[$numString] + 1] = 1;
+
+			// count by color
+			if ($color == 'red') 
+			{	
+
 				$occurencies['red'] = 0;
-				
 				$occurencies['black'] += 1;
 				$occurencies['grey'] += 1;
 				$occurencies['white'] += 1;
-			} else if ($result['color'] == 'black') {
-				$occurencies['black'] = 0;
-				
-				$occurencies['red'] += 1;
-				$occurencies['grey'] += 1;
-				$occurencies['white'] += 1;
-			} else if ($result['color'] == 'grey') {
-				$occurencies['grey'] = 0;
-				
-				$occurencies['black'] += 1;
-				$occurencies['red'] += 1;
-				$occurencies['white'] += 1;
-			} else if ($result['color'] == 'white') {
-				$occurencies['white'] = 0;
-				
-				$occurencies['black'] += 1;
-				$occurencies['grey'] += 1;
-				$occurencies['red'] += 1;
 			} 
+			else if ($color == 'black') 
+			{
 
-			// $games[] = $occurencies;
+				$occurencies['black'] = 0;
+				$occurencies['red'] += 1;
+				$occurencies['grey'] += 1;
+				$occurencies['white'] += 1;
+			}
+			else if ($color == 'grey') 
+			{
 
-			// collect stats
-			if ($occurencies['red'] == 28 || $occurencies['black'] == 28 || $occurencies['grey'] == 28) {
-				$stats[28] += 1;
+				$occurencies['grey'] = 0;
+				$occurencies['red'] += 1;
+				$occurencies['black'] += 1;
+				$occurencies['white'] += 1;
+			}
+			else if ($color == 'white') 
+			{
+
+				$occurencies['white'] = 0;
+				$occurencies['red'] += 1;
+				$occurencies['grey'] += 1;
+				$occurencies['black'] += 1;
 			}
 
-			$prevColor = $result['color'];
+			// count by numbers
+			if ($number >= 1 && $number <= 6)
+			{
+				$occurencies['1-6'] = 0;
+				$occurencies['7-12'] += 1;
+				$occurencies['13-18'] += 1;
+				$occurencies['0'] += 1;
+			}
+			else if ($number >= 7 && $number <= 12)
+			{
+				$occurencies['7-12'] = 0;
+				$occurencies['1-6'] += 1;
+				$occurencies['13-18'] += 1;
+				$occurencies['0'] += 1;
+			}
+			else if ($number >= 13 && $number <= 18)
+			{
+				$occurencies['13-18'] = 0;
+				$occurencies['1-6'] += 1;
+				$occurencies['7-12'] += 1;
+				$occurencies['0'] += 1;
+			}
+			else
+			{
+				$occurencies['0'] = 0;
+				$occurencies['1-6'] += 1;
+				$occurencies['7-12'] += 1;
+				$occurencies['13-18'] += 1;
+			}
+			
+			// save color for next round
+			$prevColor = $color;
 		}
 
-		$statsForColors = $this->countByColors($results);
+		$more10 = 0;
+		$more20 = 0;
+		$win = 0;
+		$loss = 0;
+		$earn = 0;
 
-		return [$games, $stats, $statsForColors];
+		foreach ($stats as $key => $results)
+		{
+			if ($key == 'white') continue;
+
+			foreach ($results as $max => $res)
+			{
+				if (!isset($stats[$max])) $stats[$max] = 0;
+				$stats[$max] += $res;
+
+				if ($max >= 10 && $max <= 12) $win += $res;
+				if ($max >= 13) $loss += $res;
+
+				if ($max >= 10)
+				{
+					$more10 += $res;
+				}
+
+				if ($max >= 21)
+				{
+					$more20 += $res;
+				} 
+				
+
+				if ($max >= 16 && $max <= 25)
+				{
+					// echo $key . ' - ' . $max . ' ' . $res . ' times --- ';
+					// echo '<span style="color: green">+' . ($res * $this->_money[$max]) . 'tg</span><br>';
+
+					// $win += $res * $this->_money[$max];
+				}
+
+				if ($max >= 26)
+				{
+					// echo $key . ' - ' . $max . ' ' . $res . ' times --- ';
+					// echo '<span style="color:red">-' . ($this->_money[26] * $res) . 'tg</span>, but ';
+					// echo '<span style="color: green">+' . ($this->_money[$max - 25 + 15] * $res) . 'tg</span><br>';
+
+					// $win += $this->_money[$max - 25 + 15] * $res;
+					// $loss += $res * $this->_money[26];
+				}
+			}
+		}
+
+		ksort($stats);
+		dd($stats);
+
+		// echo '<br><br>Win: ' . $win . ' times<br>';
+		// echo 'Loss: ' . $loss . ' times<br>';
+		// echo '<br><br>More 20: ' . $more20 . ' times<br>';
+		// echo 'Win: ' . $win . ' tg<br>';
+		// echo 'Loss: ' . $loss . ' tg<br>';
+		// echo 'Earn: ' . ($win - $loss) . ' tg';
 	}
+
+	private function finishRound($color, $occurencies)
+	{
+		if (isset($stats[$ccc][$occurencies[$ccc]]))
+		{
+			$stats[$ccc][$occurencies[$ccc]] += 1;
+		}
+		else
+		{
+			$stats[$ccc][$occurencies[$ccc]] = 1;
+		}
+	}
+
 
 	private function countByColors($results) {
 		$colors = [
@@ -338,7 +465,7 @@ class WheelController extends Controller
 		return $colors;
 	}
 
-    public function collect(Request $request, $date, $limit) {
+    public function collect(Request $request, $date, $limit = 16) {
     	$urls = [];
 
     	// $limit = 2;
@@ -353,12 +480,18 @@ class WheelController extends Controller
 
     	$totalData = [];
     	foreach ($data as $key => $trs) {
-    		foreach ($trs as $tr) {
+    		foreach ($trs as $key => $tr) {
+    			if ($key == 0) continue;
+
     			$results = [];
     			$index = 0;
 
+    			// dd($tr->html());
+
     			$tr->filter('td')->each(function($node) use (&$results, &$index) {
 	    			$input = $node->text();
+	    			// dd($input);
+
 	    			$input = htmlentities($input, null, 'utf-8');
 					$input = str_replace("&nbsp;", '', $input);
 					$input = str_replace("\n", '', $input);
@@ -386,7 +519,7 @@ class WheelController extends Controller
 							$color = 'white';
 						} 
 
-						$results['number'] = $input;
+						$results['number'] = intval($input);
 						$results['color'] = $color;
 					} else if ($index == 3) {
 
@@ -394,6 +527,8 @@ class WheelController extends Controller
 
 					$index += 1;
 	    		});
+
+				// dd($results);
 
 	    		$totalData[] = $results;
     		}
@@ -420,7 +555,8 @@ class WheelController extends Controller
 		$results = [];
 		$rawData = [];
 
-		$crawler->filter('table.table-results tr.lottery-items-cell')->each(function($node) use (&$rawData) {
+		$crawler->filter('table.table-results tr')->each(function($node) use (&$rawData) {
+			// dd($node);
 			$rawData[] = $node;
 		});
 

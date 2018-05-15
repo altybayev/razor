@@ -90,14 +90,27 @@ Route::get('/test/{startingBet}/{ratio}', function($startingBet, $ratio) {
 
 
 Route::get('/test/email', function() {
-	Mail::to('altybaev@bk.ru')->send(new BetIsRequired('red', 11));
+	// Mail::to('altybaev@bk.ru')->send(new BetIsRequired('red', 11));
 });
 	
 
 Route::group(['prefix' => 'wheel'], function() {
 	Route::get('/analyze/{date}/{limit}', 'WheelController@analyze');
-	Route::get('/collect/{date}/{limit}', 'WheelController@collect');
+	Route::get('/collect/{date}/{limit?}', 'WheelController@collect');
+	Route::get('/round', 'WheelController@round');
 });
 
+Route::group(['prefix' => 'dice_duel'], function() {
+	Route::get('/round', 'DiceDuelController@round');
+});
 
-Route::get('/', 'WheelController@round');
+Route::get('/', 'FrontendController@cabinet');
+
+
+Auth::routes();
+
+
+Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'permission:backend']], function() {
+	Route::get('/', 'BackendController@index');
+});
+
