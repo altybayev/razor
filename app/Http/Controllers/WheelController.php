@@ -202,7 +202,7 @@ class WheelController extends Controller
 
 		// TODO: if [param] times -> notify by email!
 		$param = 10;
-		$paramVitek = 15;
+		$paramVitek = 20;
 
 		// others
 		if ($stats->one_six >= $param) {

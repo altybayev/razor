@@ -135,12 +135,12 @@ class DiceDuelController extends Controller
 			[
 				'email' => '1000-victory@mail.ru',
 				'series' => [
-					'red_equals_blue' => 30,
-			        'red_plus_blue_greater_ten' => 30,
-			        'red_plus_blue_less_four' => 30,
-			        'red_plus_blue_equals_seven' => 30,
-			        'red_greater_blue' => 10,
-			        'blue_greated_red' => 10,
+					'red_equals_blue' => 35,
+			        'red_plus_blue_greater_ten' => 35,
+			        'red_plus_blue_less_four' => 35,
+			        'red_plus_blue_equals_seven' => 35,
+			        'red_greater_blue' => 15,
+			        'blue_greated_red' => 15,
 			        'red_plus_blue_equals_six' => 30,
 			        'red_plus_blue_equals_eight' => 30,
 				],
