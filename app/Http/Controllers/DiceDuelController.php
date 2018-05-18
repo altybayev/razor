@@ -145,19 +145,19 @@ class DiceDuelController extends Controller
 			        'red_plus_blue_equals_eight' => 30,
 				],
 			],
-			[
-				'email' => 'ravonrr@mail.ru',
-				'series' => [
-					'red_equals_blue' => 30,
-			        'red_plus_blue_greater_ten' => 30,
-			        'red_plus_blue_less_four' => 30,
-			        'red_plus_blue_equals_seven' => 30,
-			        'red_greater_blue' => 10,
-			        'blue_greated_red' => 10,
-			        'red_plus_blue_equals_six' => 30,
-			        'red_plus_blue_equals_eight' => 30,
-				],
-			],
+			// [
+			// 	'email' => 'ravonrr@mail.ru',
+			// 	'series' => [
+			// 		'red_equals_blue' => 30,
+			//         'red_plus_blue_greater_ten' => 30,
+			//         'red_plus_blue_less_four' => 30,
+			//         'red_plus_blue_equals_seven' => 30,
+			//         'red_greater_blue' => 10,
+			//         'blue_greated_red' => 10,
+			//         'red_plus_blue_equals_six' => 30,
+			//         'red_plus_blue_equals_eight' => 30,
+			// 	],
+			// ],
 		];
 
 
