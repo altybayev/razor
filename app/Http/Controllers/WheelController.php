@@ -131,7 +131,7 @@ class WheelController extends Controller
 		// dd($stats);
 
 		// settings
-		$emails = ['altybaev@bk.ru', 'ravonrr@mail.ru'];
+		$emails = ['ravonrr@mail.ru'];
 		$vitek = '1000-victory@mail.ru';
 
 		$target = '';
